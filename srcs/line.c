@@ -1,49 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkamolba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/18 20:54:12 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/04/18 23:29:40 by nkamolba         ###   ########.fr       */
+/*   Created: 2018/11/12 23:01:43 by nkamolba          #+#    #+#             */
+/*   Updated: 2018/11/12 23:45:51 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include "stdio.h"
-
-typedef struct	s_mlx
-{
-	void		*mlx_ptr;
-	void		*win_ptr;
-}				t_mlx;
-
-typedef struct	s_line
-{
-	int			x0;
-	int			x1;
-	int			y0;
-	int			y1;
-}				t_line;
-
-int		ft_sign(double n)
-{
-	if (n > 0)
-		return (1);
-	else if (n < 0)
-		return (-1);
-	return (0);
-}
-
-void	ft_swapint(int *n1, int *n2)
-{
-	int		temp;
-
-	temp = *n1;
-	*n1 = *n2;
-	*n2 = temp;
-}
+#include "fdf.h"
 
 void	draw_line(t_mlx mlx, t_line l)
 {
@@ -89,20 +56,4 @@ void	draw_line(t_mlx mlx, t_line l)
 			x++;
 		}
 	}
-}
-
-int		main(void)
-{
-	t_mlx	mlx;
-	t_line	line;
-
-	mlx.mlx_ptr = mlx_init();
-	mlx.win_ptr = mlx_new_window(mlx.mlx_ptr, 500, 500, "mlx 42");
-	line.x0 = 100;
-	line.x1 = 400;
-	line.y0 = 100;
-	line.y1 = 400;
-	draw_line(mlx, line);
-	mlx_loop(mlx.mlx_ptr);
-	return (0);
 }
