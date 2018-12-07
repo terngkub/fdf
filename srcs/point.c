@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   point.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/12 23:43:59 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/07 19:14:33 by nkamolba         ###   ########.fr       */
+/*   Created: 2018/12/07 18:56:21 by nkamolba          #+#    #+#             */
+/*   Updated: 2018/12/07 19:14:22 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		ft_sign(double n)
+t_point	create_point(int x, int y)
 {
-	if (n > 0)
-		return (1);
-	else if (n < 0)
-		return (-1);
-	return (0);
-}
+	t_point point;
 
-void	ft_swapint(int *n1, int *n2)
-{
-	int		temp;
-
-	temp = *n1;
-	*n1 = *n2;
-	*n2 = temp;
+	point.x = x;
+	point.y = y;
+	return (point);
 }
