@@ -6,12 +6,12 @@
 #    By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/15 19:35:45 by nkamolba          #+#    #+#              #
-#    Updated: 2018/12/08 17:58:36 by nkamolba         ###   ########.fr        #
+#    Updated: 2018/12/08 21:03:58 by nkamolba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
-_SRCS = main.c env.c utils.c \
+_SRCS = main.c parse.c env.c utils.c \
 		point.c line.c map.c
 _INCLUDES = fdf.h
 
@@ -26,15 +26,15 @@ INCLUDES_DIR = includes
 INCLUDES = $(addprefix $(INCLUDES_DIR)/, $(_INLCUDES))
 
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libft.a
+LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_FLAG = -Llibft -lft
 
 MLX_DIR = minilibx_macos
 MLX_FLAG = -I /usr/local/include -L minilibx_macos/ -lmlx -framework OpenGL -framework AppKit
 
-all : $(LIBFT) $(INCLUDE) $(NAME)
+all : lib $(INCLUDES) $(NAME)
 
-$(LIBFT):
+lib:
 	@make -C $(LIBFT_DIR)
 
 $(MLX):

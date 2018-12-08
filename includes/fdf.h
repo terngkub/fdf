@@ -6,19 +6,23 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/08 19:28:05 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/08 22:04:01 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# include "../libft/libft.h"
+# include <fcntl.h>
 # include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
 
 # define WINDOW_WIDTH 1200
 # define WINDOW_HEIGHT 1200
+
+int				open_file(int argc, char **argv);
 
 /*
 ** Point
@@ -31,6 +35,7 @@ typedef struct	s_point
 }				t_point;
 
 t_point			create_point(int x, int y);
+t_queue	*read_file(int fd);
 
 /*
 ** Environment
