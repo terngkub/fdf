@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   point.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 18:56:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/08 17:41:55 by nkamolba         ###   ########.fr       */
+/*   Created: 2018/12/08 14:59:48 by nkamolba          #+#    #+#             */
+/*   Updated: 2018/12/08 19:28:56 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_point	create_point(int x, int y)
+void	init_env(t_env *env)
 {
-	t_point point;
+	int		bpp;
+	int		size_line;
+	int		endian;
 
-	point.x = x;
-	point.y = y;
-	return (point);
+	env->mlx_ptr = mlx_init();
+	env->win_ptr = mlx_new_window(env->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "mlx 42");
+	env->img_ptr = mlx_new_image(env->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+	bpp = 32;
+	size_line = WINDOW_WIDTH * 4;
+	endian = 1;
+	env->img = (int *)mlx_get_data_addr(env->img_ptr, &bpp, &size_line, &endian);
 }
