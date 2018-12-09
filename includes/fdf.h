@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/08 22:04:01 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/09 17:32:14 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,20 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define WINDOW_WIDTH 1200
-# define WINDOW_HEIGHT 1200
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
 
-int				open_file(int argc, char **argv);
+# define KEY_EXIT 53
+# define KEY_4 86
+# define KEY_5 87
+# define KEY_6 88
+# define KEY_7 89
+# define KEY_8 91
+# define KEY_9 92
+
+
+
+int		**parse_file(int argc, char **argv);
 
 /*
 ** Point
@@ -51,6 +61,11 @@ typedef struct	s_env
 	t_point		**map;
 	int			map_width;
 	int			map_height;
+
+	double		rot_x;
+	double		rot_y;
+	double		rot_z;
+
 }				t_env;
 
 void	init_env(t_env *env);
@@ -74,6 +89,7 @@ void			draw_line(t_env *env, t_line l);
 */
 
 void			dummy_map(t_env *env);
+void			create_map(t_env *env, int **z);
 void			draw_map(t_env *env);
 
 

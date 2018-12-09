@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 23:43:59 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/07 19:14:33 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/09 13:21:29 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int		ft_sign(double n)
 {
 	if (n > 0)
-		return (1);
+		return (n);
 	else if (n < 0)
-		return (-1);
+		return (-n);
 	return (0);
 }
 

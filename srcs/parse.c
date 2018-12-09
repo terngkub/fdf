@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/08 22:23:49 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/09 13:14:32 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,47 +42,54 @@ int		get_split_len(char **split)
 
 t_queue	*read_file(int fd)
 {
-	t_queue	*z_rows;
+	t_queue	*z_queue;
 	char	*line;
 	char	**split;
 	int		i;
 	int		*row;
 	int		split_len;
 
-	z_rows = ft_queue_create(sizeof(int *));
+	z_queue = ft_queue_create(sizeof(int *) * 19);
 	while (get_next_line(fd, &line) > 0)
 	{
 		split = ft_strsplit(line, ' ');
 		split_len = get_split_len(split);
-		row = (int *)malloc(sizeof(int) * split_len);
-		// TODO handle malloc
+		if (!(row = (int *)malloc(sizeof(int) * split_len)))
+			;
 		i = 0;
 		while (i < split_len)
 		{
 			row[i] = (int)ft_atoi(split[i]);
-			printf("%d ", row[i]);
 			i++;
 		}
-		ft_queue_enqueue(z_rows, row);
-		printf("\n");
+		ft_queue_enqueue(z_queue, row);
 	}
-	return z_rows;
+	return z_queue;
 }
-/*
 
-int		**get_altitude(t_queue *)
+int		**get_z(t_queue *z_queue)
 {
-	
+	int		**z;
+	int		i;
 
+	if (!(z = (int **)malloc(sizeof(int *) * z_queue->size)))
+		;
+	i = 0;
+	while (z_queue->size > 0)
+	{
+		z[i] = (int *)ft_queue_dequeue(z_queue);
+		i++;
+	}
+	return z;
 }
 
 int		**parse_file(int argc, char **argv)
 {
 	int		fd;
+	t_queue	*z_queue;
 
 	fd = open_file(argc, argv);
-	read_file(fd);
+	z_queue = read_file(fd);
 	close(fd);
-	return get_altitude();
+	return get_z(z_queue);
 }
-*/
