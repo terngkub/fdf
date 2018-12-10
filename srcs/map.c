@@ -6,63 +6,35 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 19:56:57 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/09 17:32:16 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:21:03 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	dummy_map(t_env *env)
+void	get_coord(t_env *env)
 {
-	int		i;
+	int	y;
+	int x;
+	t_point	point;
 
-	env->map = (t_point **)malloc(sizeof(t_point *) * 2);
-	i = 0;
-	while (i < 2)
-		env->map[i++] = (t_point *)malloc(sizeof(t_point) * 2);
-	env->map[0][0] = create_point(100, 100);
-	env->map[0][1] = create_point(100, 200);
-	env->map[1][0] = create_point(200, 100);
-	env->map[1][1] = create_point(200, 200);
-	env->map_width = 2;
-	env->map_height = 2;
-}
-
-void	create_map(t_env *env, int **z)
-{
-	int		i;
-	int		j;
-	int		x;
-	int		y;
-	int		c1;
-	double	c2;
-	double	c3;
-	int		w;
-
-	env->map = (t_point **)malloc(sizeof(t_point *) * 11);
-	i = 0;
-	while (i < 11)
+	if (!(env->coords = (t_coord **)malloc(sizeof(t_coord *) * env->map_height)))
+		ft_error("Error: malloc fail");
+	y = 0;
+	while (y < env->map_height)
 	{
-		env->map[i] = (t_point *)malloc(sizeof(t_point) * 19);
-		j = 0;
-		while (j < 19)
+		if (!(env->coords[y] = (t_coord *)malloc(sizeof(t_coord) * env->map_width)))
+			ft_error("Error: malloc fail");
+		x = 0;
+		while (x < env->map_width)
 		{
-			//x = j * 20 + (11 - i) * 10;
-			//y = 10 + i * 20 - z[i][j] * 2;
-			w = 30;
-			c1 = 0;
-			c2 = 0;
-			c3 = 0.3;
-			x = (j * w + i * c1) * (1 - c3) - c3 * z[i][j] * 2;
-			y = (i - j * c1) * w * (1 - c2) - c2 * z[i][j] * 2;
-			y += 0 * z[i][j];
-			env->map[i][j] = create_point(x, y);
-			j++;
+			point = env->points[y][x];
+			env->coords[y][x] = create_coord(point.x * env->zoom_level, point.y * env->zoom_level, point.z * env->height_level);
+			rotate(env, &(env->coords[y][x]));
+			x++;
 		}
-		i++;
+		y++;
 	}
-	env->map_width = 19;
-	env->map_height = 11;
 }
 
 void	draw_map(t_env *env)
@@ -78,14 +50,35 @@ void	draw_map(t_env *env)
 		{
 			if (x + 1 < env->map_width)
 			{
-				draw_line(env, create_line(env->map[y][x], env->map[y][x + 1]));
+				draw_line(env, create_line(env->coords[y][x], env->coords[y][x + 1]));
 			}
 			if (y + 1 < env->map_height)
 			{
-				draw_line(env, create_line(env->map[y][x], env->map[y + 1][x]));
+				draw_line(env, create_line(env->coords[y][x], env->coords[y + 1][x]));
 			}
 			x++;
 		}
+		y++;
+	}
+}
+
+void	print_points(t_env *env)
+{
+	int		x;
+	int		y;
+	t_point	point;
+
+	y = 0;
+	while (y < env->map_height)
+	{
+		x = 0;
+		while (x < env->map_width)
+		{
+			point = env->points[y][x];
+			printf("%d,%d,%d ", point.x, point.y, point.z);
+			x++;
+		}
+		printf("\n");
 		y++;
 	}
 }

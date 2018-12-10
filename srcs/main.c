@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:12 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/09 17:46:46 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:35:18 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	display_change(t_env *env)
 {
 	ft_bzero(env->img, WINDOW_WIDTH * WINDOW_HEIGHT * 4);
+	get_coord(env);
+	draw_map(env);
 	mlx_put_image_to_window(env->mlx_ptr, env->win_ptr, env->img_ptr, 0, 0);
 }
 
@@ -27,29 +29,58 @@ int	handle_key(int key, void *param)
 		exit(0);
 	if (key == KEY_4)
 	{
-		env->rot_y -= 0.1;
+		env->rot_x += 0.1;
 		display_change(env);
 	}
 	if (key == KEY_6)
 	{
+		env->rot_x -= 0.1;
+		display_change(env);
+	}
+	if (key == KEY_5)
+	{
+		env->rot_y -= 0.1;
+		display_change(env);
+	}
+	if (key == KEY_8)
+	{
 		env->rot_y += 0.1;
 		display_change(env);
 	}
+	if (key == KEY_7)
+	{
+		env->rot_z -= 0.1;
+		display_change(env);
+	}
+	if (key == KEY_9)
+	{
+		env->rot_z += 0.1;
+		display_change(env);
+	}
+	if (key == KEY_PLUS)
+	{
+		env->zoom_level += 1;
+		display_change(env);
+	}
+	if (key == KEY_MINUS)
+	{
+		env->zoom_level -= 1;
+		display_change(env);
+	}
+	
 	return (0);
 }
 
 int		main(int argc, char **argv)
 {
 	t_env	env;
-	int		**z;
 
-	z = parse_file(argc, argv);
-	create_map(&env, z);
+	parse_file(&env, argc, argv);
 	init_env(&env);
+	get_coord(&env);
 	draw_map(&env);
-	mlx_key_hook(env.win_ptr, handle_key, NULL);
+	mlx_key_hook(env.win_ptr, handle_key, &env);
 	mlx_put_image_to_window(env.mlx_ptr, env.win_ptr, env.img_ptr, 0, 0);
-	printf("%d\n", (int)(-1.8));
 	mlx_loop(env.mlx_ptr);
 	return (0);
 }

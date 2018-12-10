@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/09 17:32:14 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:35:40 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <math.h>
 
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
@@ -29,10 +30,12 @@
 # define KEY_7 89
 # define KEY_8 91
 # define KEY_9 92
-
-
-
-int		**parse_file(int argc, char **argv);
+# define KEY_PLUS 69
+# define KEY_MINUS 78
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
 
 /*
 ** Point
@@ -42,10 +45,19 @@ typedef struct	s_point
 {
 	int			x;
 	int			y;
+	int			z;
 }				t_point;
 
-t_point			create_point(int x, int y);
-t_queue	*read_file(int fd);
+t_point			create_point(int x, int y, int z);
+
+typedef struct	s_coord
+{
+	double		x;
+	double		y;
+	double		z;
+}				t_coord;
+
+t_coord			create_coord(int x, int y, int z);
 
 /*
 ** Environment
@@ -58,10 +70,14 @@ typedef struct	s_env
 	void		*img_ptr;
 	int			*img;
 
-	t_point		**map;
+	t_point		**points;
+	t_coord		**coords;
+
 	int			map_width;
 	int			map_height;
 
+	int			zoom_level;
+	int			height_level;
 	double		rot_x;
 	double		rot_y;
 	double		rot_z;
@@ -70,6 +86,13 @@ typedef struct	s_env
 
 void	init_env(t_env *env);
 
+/*
+** Parse
+*/
+
+t_queue			*read_file(t_env *env, int fd);
+void			parse_file(t_env *env, int argc, char **argv);
+
 
 /*
 ** Line
@@ -77,21 +100,19 @@ void	init_env(t_env *env);
 
 typedef struct	s_line
 {
-	t_point		one;
-	t_point		two;
+	t_coord		one;
+	t_coord		two;
 }				t_line;
 
-t_line			create_line(t_point one, t_point two);
+t_line			create_line(t_coord one, t_coord two);
 void			draw_line(t_env *env, t_line l);
 
 /*
 ** Map
 */
 
-void			dummy_map(t_env *env);
-void			create_map(t_env *env, int **z);
+void			get_coord(t_env *env);
 void			draw_map(t_env *env);
-
 
 
 /*
@@ -100,5 +121,8 @@ void			draw_map(t_env *env);
 
 int				ft_sign(double n);
 void			ft_swapint(int *n1, int *n2);
+void			ft_error(char *str);
 
+void			print_points(t_env *env);
+void			rotate(t_env *env, t_coord *coord);
 #endif

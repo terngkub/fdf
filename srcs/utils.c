@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 23:43:59 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/09 13:21:29 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:22:48 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,11 @@ void	ft_swapint(int *n1, int *n2)
 	temp = *n1;
 	*n1 = *n2;
 	*n2 = temp;
+}
+
+void	ft_error(char *str)
+{
+	ft_putstr("Error: ");
+	ft_putendl(str);
+	exit(1);
 }

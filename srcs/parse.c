@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/09 13:14:32 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:56:19 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,56 +40,82 @@ int		get_split_len(char **split)
 	return len;
 }
 
-t_queue	*read_file(int fd)
+int		*parse_line(t_env *env, char *line)
 {
-	t_queue	*z_queue;
-	char	*line;
 	char	**split;
+	int		split_len;
 	int		i;
 	int		*row;
-	int		split_len;
 
-	z_queue = ft_queue_create(sizeof(int *) * 19);
+	if (!(split = ft_strsplit(line, ' ')))
+		ft_error("ft_strplit fail");
+	split_len = get_split_len(split);
+	if (env->map_width == -1)
+		env->map_width = split_len;
+	if (env->map_width != split_len)
+		ft_error("lines don't have the same width");
+	if (!(row = (int *)malloc(sizeof(int) * split_len)))
+		ft_error("malloc fail");
+	i = 0;
+	while (i < split_len)
+	{
+		row[i] = (int)ft_atoi(split[i]);
+		i++;
+	}
+	return row;
+}
+
+t_queue	*read_file(t_env *env, int fd)
+{
+	char	*line;
+	int		*row;
+	t_queue	*z_queue;
+
+	env->map_width = -1;
+	get_next_line(fd, &line);
+	row = parse_line(env, line);
+	z_queue = ft_queue_create(sizeof(int *) * env->map_width);
+	ft_queue_enqueue(z_queue, row);
 	while (get_next_line(fd, &line) > 0)
 	{
-		split = ft_strsplit(line, ' ');
-		split_len = get_split_len(split);
-		if (!(row = (int *)malloc(sizeof(int) * split_len)))
-			;
-		i = 0;
-		while (i < split_len)
-		{
-			row[i] = (int)ft_atoi(split[i]);
-			i++;
-		}
+		row = parse_line(env, line);
 		ft_queue_enqueue(z_queue, row);
 	}
+	env->map_height = z_queue->size;
 	return z_queue;
 }
 
-int		**get_z(t_queue *z_queue)
+void	get_points(t_env *env, t_queue *z_queue)
 {
-	int		**z;
-	int		i;
+	int		x;
+	int		y;
+	int		*z;
 
-	if (!(z = (int **)malloc(sizeof(int *) * z_queue->size)))
-		;
-	i = 0;
+	if (!(env->points = (t_point **)malloc(sizeof(t_point *) * env->map_height)))
+		ft_error("Error: malloc fail");
+	y = 0;
 	while (z_queue->size > 0)
 	{
-		z[i] = (int *)ft_queue_dequeue(z_queue);
-		i++;
+		if (!(env->points[y] = (t_point *)malloc(sizeof(t_point) * env->map_width)))
+			ft_error("Error: malloc fail");
+		z = (int *)ft_queue_dequeue(z_queue);
+		x = 0;
+		while (x < env->map_width)
+		{
+			env->points[y][x] = create_point(x, y, z[x]);
+			x++;
+		}
+		y++;
 	}
-	return z;
 }
 
-int		**parse_file(int argc, char **argv)
+void	parse_file(t_env *env, int argc, char **argv)
 {
 	int		fd;
 	t_queue	*z_queue;
 
 	fd = open_file(argc, argv);
-	z_queue = read_file(fd);
+	z_queue = read_file(env, fd);
 	close(fd);
-	return get_z(z_queue);
+	get_points(env, z_queue);
 }

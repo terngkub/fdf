@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 14:59:48 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/09 17:48:00 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:20:40 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	init_env(t_env *env)
 	size_line = WINDOW_WIDTH * 4;
 	endian = 1;
 	env->img = (int *)mlx_get_data_addr(env->img_ptr, &bpp, &size_line, &endian);
-	env->rot_x = 0;
-	env->rot_y = 0;
-	env->rot_z = 0;
+	env->zoom_level = 20;
+	env->height_level = 1;
+	env->rot_x = 120;
+	env->rot_y = 120;
+	env->rot_z = 120;
 }
