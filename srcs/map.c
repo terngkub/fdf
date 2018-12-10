@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 19:56:57 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 18:21:03 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:57:18 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	get_coord(t_env *env)
 		{
 			point = env->points[y][x];
 			env->coords[y][x] = create_coord(point.x * env->zoom_level, point.y * env->zoom_level, point.z * env->height_level);
+			env->coords[y][x].x += env->adjust_x;
+			env->coords[y][x].y += env->adjust_y;
 			rotate(env, &(env->coords[y][x]));
 			x++;
 		}

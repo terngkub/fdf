@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 18:35:40 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:35:14 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct	s_env
 
 	int			zoom_level;
 	int			height_level;
+	int			adjust_x;
+	int			adjust_y;
 	double		rot_x;
 	double		rot_y;
 	double		rot_z;

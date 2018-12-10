@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:12 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 18:35:18 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/10 19:46:24 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,26 @@ int	handle_key(int key, void *param)
 		env->zoom_level -= 1;
 		display_change(env);
 	}
-	
+	if (key == KEY_LEFT)
+	{
+		env->adjust_x -= 10;
+		display_change(env);
+	}
+	if (key == KEY_RIGHT)
+	{
+		env->adjust_x += 10;
+		display_change(env);
+	}
+	if (key == KEY_UP)
+	{
+		env->adjust_y -= 10;
+		display_change(env);
+	}
+	if (key == KEY_DOWN)
+	{
+		env->adjust_y += 10;
+		display_change(env);
+	}
 	return (0);
 }
 
@@ -79,7 +98,7 @@ int		main(int argc, char **argv)
 	init_env(&env);
 	get_coord(&env);
 	draw_map(&env);
-	mlx_key_hook(env.win_ptr, handle_key, &env);
+	mlx_hook(env.win_ptr, 2, 1L << 0, handle_key, &env);
 	mlx_put_image_to_window(env.mlx_ptr, env.win_ptr, env.img_ptr, 0, 0);
 	mlx_loop(env.mlx_ptr);
 	return (0);
