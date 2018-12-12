@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 14:59:48 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 19:33:14 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 14:27:02 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void	init_env(t_env *env)
 	env->rot_x = 120;
 	env->rot_y = 120;
 	env->rot_z = 120;
-	env->adjust_x = 50;
-	env->adjust_y = 50;
+	env->adjust_x = 0;
+	env->adjust_y = 0;
 }

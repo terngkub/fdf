@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 19:35:14 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 14:51:14 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
+# include <float.h>
 
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
@@ -55,6 +56,7 @@ typedef struct	s_coord
 	double		x;
 	double		y;
 	double		z;
+	int			z_level;
 }				t_coord;
 
 t_coord			create_coord(int x, int y, int z);
@@ -83,6 +85,13 @@ typedef struct	s_env
 	double		rot_x;
 	double		rot_y;
 	double		rot_z;
+
+	double		min_x;
+	double		max_x;
+	double		min_y;
+	double		max_y;
+	int			min_z;
+	int			max_z;
 
 }				t_env;
 

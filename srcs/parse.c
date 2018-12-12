@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 16:56:19 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 14:56:46 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,14 @@ t_queue	*read_file(t_env *env, int fd)
 	return z_queue;
 }
 
+void check_zlevel_minmax(t_env *env, int z_level)
+{
+	if (z_level < env->min_z)
+		env->min_z = z_level;
+	else if (z_level > env->min_z)
+		env->max_z = z_level;
+}
+
 void	get_points(t_env *env, t_queue *z_queue)
 {
 	int		x;
@@ -103,6 +111,7 @@ void	get_points(t_env *env, t_queue *z_queue)
 		while (x < env->map_width)
 		{
 			env->points[y][x] = create_point(x, y, z[x]);
+			check_zlevel_minmax(env, z[x]);
 			x++;
 		}
 		y++;

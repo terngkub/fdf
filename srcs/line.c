@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 23:01:43 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 17:30:13 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 16:40:03 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,33 @@ void		swap_coord(t_line *l)
 	l->two = temp;
 }
 
-static void	draw_diagonal_line(t_env *env, t_line l)
+void		handle_slope_error(double m, double *slope_error, t_coord *current)
+{
+	*slope_error += m - (double)(int)m;
+	if (*slope_error >= 0.5)
+	{
+		current->y += 1;
+		*slope_error -= 1;
+	}
+	else if (*slope_error < -0.5)
+	{
+		current->y -= 1;
+		*slope_error += 1;
+	}
+}
+
+//256 * (256 - 255 * p)
+void		draw_pixel(t_env *env, t_coord coord, t_line l)
 {
 	int		pixel;
-	int		count_m;
+
+	pixel = (int)(coord.y * WINDOW_WIDTH + coord.x);
+	if (pixel >= 0 && pixel < WINDOW_WIDTH * WINDOW_HEIGHT)
+		env->img[pixel] = 0x00FF00;
+}
+
+static void	draw_diagonal_line(t_env *env, t_line l)
+{
 	double	m;
 	double	slope_error;
 	t_coord	current;
@@ -43,43 +66,11 @@ static void	draw_diagonal_line(t_env *env, t_line l)
 	m = (l.two.y - l.one.y) / (l.two.x - l.one.x);
 	slope_error = 0;
 	current = create_coord(l.one.x, l.one.y, 0);
+
 	while (current.x < l.two.x)
 	{
-		if (m > 2)
-		{
-			count_m = 0;
-			while (count_m < m)
-			{
-				pixel = (int)((current.y + count_m++) * WINDOW_WIDTH + current.x);
-				if (pixel >= 0 && pixel <= WINDOW_WIDTH * WINDOW_HEIGHT)
-					env->img[pixel] = 0xFFFFFF;
-			}
-		}
-		if (m < -2)
-		{
-			count_m = 0;
-			while (count_m < -m)
-			{
-				pixel = (int)((current.y - count_m++) * WINDOW_WIDTH + current.x);
-				if (pixel >= 0 && pixel <= WINDOW_WIDTH * WINDOW_HEIGHT)
-					env->img[pixel] = 0xFFFFFF;
-			}
-		}
-
-		pixel = (int)(current.y * WINDOW_WIDTH + current.x);
-		if (pixel >= 0 && pixel <= WINDOW_WIDTH * WINDOW_HEIGHT)
-			env->img[pixel] = 0xFFFFFF;
-		slope_error += m - (double)(int)m;
-		if (slope_error >= 0.5)
-		{
-			current.y++;
-			slope_error--;
-		}
-		else if (slope_error < -0.5)
-		{
-			current.y--;
-			slope_error++;
-		}
+		draw_pixel(env, current);
+		handle_slope_error(m, &slope_error, &current);
 		current.y += (int)m;
 		current.x++;
 	}
