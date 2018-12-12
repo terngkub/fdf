@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 14:56:46 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:05:40 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void check_zlevel_minmax(t_env *env, int z_level)
 {
 	if (z_level < env->min_z)
 		env->min_z = z_level;
-	else if (z_level > env->min_z)
+	else if (z_level > env->max_z)
 		env->max_z = z_level;
 }
 
@@ -99,6 +99,8 @@ void	get_points(t_env *env, t_queue *z_queue)
 	int		y;
 	int		*z;
 
+	env->min_z = DBL_MAX;
+	env->max_z = DBL_MIN;
 	if (!(env->points = (t_point **)malloc(sizeof(t_point *) * env->map_height)))
 		ft_error("Error: malloc fail");
 	y = 0;

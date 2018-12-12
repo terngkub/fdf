@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 14:51:14 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:13:54 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct	s_coord
 	int			z_level;
 }				t_coord;
 
-t_coord			create_coord(int x, int y, int z);
+t_coord			create_coord(int x, int y, int z, int z_level);
 
 /*
 ** Environment
@@ -90,8 +90,8 @@ typedef struct	s_env
 	double		max_x;
 	double		min_y;
 	double		max_y;
-	int			min_z;
-	int			max_z;
+	double		min_z;
+	double		max_z;
 
 }				t_env;
 

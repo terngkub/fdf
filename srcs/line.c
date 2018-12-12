@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 23:01:43 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 16:40:03 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:14:23 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,38 @@ void		handle_slope_error(double m, double *slope_error, t_coord *current)
 	}
 }
 
-//256 * (256 - 255 * p)
-void		draw_pixel(t_env *env, t_coord coord, t_line l)
+void		draw_pixel(t_env *env, t_coord coord, int color)
 {
 	int		pixel;
 
+	if (coord.x < 0 || coord.x >= WINDOW_WIDTH || coord.y < 0 || coord.y >= WINDOW_HEIGHT)
+		return ;
 	pixel = (int)(coord.y * WINDOW_WIDTH + coord.x);
 	if (pixel >= 0 && pixel < WINDOW_WIDTH * WINDOW_HEIGHT)
-		env->img[pixel] = 0x00FF00;
+		env->img[pixel] = color;
+}
+
+int		get_color(t_env *env, t_line l, double percent)
+{
+	double	range_z;
+	double	actual_z;
+	double	percent_z;
+	double	color;
+
+	range_z = l.two.z_level - l.one.z_level;
+	actual_z = l.one.z_level + range_z * percent;
+	percent_z = (actual_z - env->min_z) / (env->max_z - env->min_z);
+	/*
+	if (percent_z <= 0)
+		printf("one: %d, two: %d, percent_x: %f, range_z: %f, actual_z: %f, percent_z: %f\n", l.one.z_level, l.two.z_level, percent, range_z, actual_z, percent_z);
+		*/
+	color = 0x0000FF + percent_z * (0x00FF00 - 0x0000FF);
+	return (int)color;
 }
 
 static void	draw_diagonal_line(t_env *env, t_line l)
 {
+	int		color;
 	double	m;
 	double	slope_error;
 	t_coord	current;
@@ -65,11 +85,12 @@ static void	draw_diagonal_line(t_env *env, t_line l)
 		swap_coord(&l);
 	m = (l.two.y - l.one.y) / (l.two.x - l.one.x);
 	slope_error = 0;
-	current = create_coord(l.one.x, l.one.y, 0);
+	current = create_coord(l.one.x, l.one.y, 0, 0);
 
 	while (current.x < l.two.x)
 	{
-		draw_pixel(env, current);
+		color = get_color(env, l, (current.x - l.one.x) / (l.two.x - l.one.x));
+		draw_pixel(env, current, color);
 		handle_slope_error(m, &slope_error, &current);
 		current.y += (int)m;
 		current.x++;

@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 19:56:57 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 14:52:51 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:13:25 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void	check_minmax(t_env *env, int x, int y)
 {
 	int	coord_x;
 	int	coord_y;
-	int	z_level;
 
 	coord_x = env->coords[y][x].x;
 	coord_y = env->coords[y][x].y;
-	z_level = env->coords[y][x].z_level;
 	if (coord_x < env->min_x)
 		env->min_x = coord_x;
 	else if (coord_x > env->max_x)
@@ -30,8 +28,6 @@ void	check_minmax(t_env *env, int x, int y)
 	else if (coord_y > env->max_y)
 		env->max_y = coord_y;
 }
-
-
 
 void reset_minmax(t_env *env)
 {
@@ -82,7 +78,7 @@ void	get_coord(t_env *env)
 		while (x < env->map_width)
 		{
 			point = env->points[y][x];
-			env->coords[y][x] = create_coord(point.x * env->zoom_level, point.y * env->zoom_level, point.z * env->height_level);
+			env->coords[y][x] = create_coord(point.x * env->zoom_level, point.y * env->zoom_level, point.z * env->height_level, point.z);
 			rotate(env, &(env->coords[y][x]));
 			check_minmax(env, x, y);
 			x++;
