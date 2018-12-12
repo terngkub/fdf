@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 23:01:43 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 18:14:23 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:23:08 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,6 @@ int		get_color(t_env *env, t_line l, double percent)
 	range_z = l.two.z_level - l.one.z_level;
 	actual_z = l.one.z_level + range_z * percent;
 	percent_z = (actual_z - env->min_z) / (env->max_z - env->min_z);
-	/*
-	if (percent_z <= 0)
-		printf("one: %d, two: %d, percent_x: %f, range_z: %f, actual_z: %f, percent_z: %f\n", l.one.z_level, l.two.z_level, percent, range_z, actual_z, percent_z);
-		*/
 	color = 0x0000FF + percent_z * (0x00FF00 - 0x0000FF);
 	return (int)color;
 }

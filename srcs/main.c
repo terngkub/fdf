@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:12 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/10 19:46:24 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:27:35 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ int	handle_key(int key, void *param)
 	if (key == KEY_9)
 	{
 		env->rot_z += 0.1;
+		display_change(env);
+	}
+	if (key == KEY_2)
+	{
+		env->height_level -= 1;
+		display_change(env);
+	}
+	if (key == KEY_3)
+	{
+		env->height_level += 1;
 		display_change(env);
 	}
 	if (key == KEY_PLUS)

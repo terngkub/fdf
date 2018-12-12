@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 18:13:54 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:27:33 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define WINDOW_HEIGHT 600
 
 # define KEY_EXIT 53
+# define KEY_2 84
+# define KEY_3 85
 # define KEY_4 86
 # define KEY_5 87
 # define KEY_6 88
