@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 17:06:14 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 18:31:04 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/14 22:53:49 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static int	handle_key_rotate(t_env *env, int key)
 
 	change = 1;
 	if (key == KEY_4)
-		env->rot_x += 0.1;
-	else if (key == KEY_6)
-		env->rot_x -= 0.1;
-	else if (key == KEY_5)
-		env->rot_y -= 0.1;
-	else if (key == KEY_8)
 		env->rot_y += 0.1;
+	else if (key == KEY_6)
+		env->rot_y -= 0.1;
+	else if (key == KEY_5)
+		env->rot_x -= 0.1;
+	else if (key == KEY_8)
+		env->rot_x += 0.1;
 	else if (key == KEY_7)
 		env->rot_z -= 0.1;
 	else if (key == KEY_9)

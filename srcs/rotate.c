@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:34:34 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 17:23:53 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/14 22:52:41 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	rotate_x(t_env *env, t_coord *coord)
 {
 	t_coord new;
 
-	new.x = coord->x * cos(env->rot_x) - coord->z * sin(env->rot_x);
-	new.z = coord->z * cos(env->rot_x) + coord->x * sin(env->rot_x);
-	coord->x = new.x;
+	new.y = coord->y * cos(env->rot_x) - coord->z * sin(env->rot_x);
+	new.z = coord->z * cos(env->rot_x) + coord->y * sin(env->rot_x);
+	coord->y = new.y;
 	coord->z = new.z;
 }
 
@@ -26,9 +26,9 @@ static void	rotate_y(t_env *env, t_coord *coord)
 {
 	t_coord new;
 
-	new.y = coord->y * cos(env->rot_y) - coord->z * sin(env->rot_y);
-	new.z = coord->z * cos(env->rot_y) + coord->y * sin(env->rot_y);
-	coord->y = new.y;
+	new.x = coord->x * cos(env->rot_y) - coord->z * sin(env->rot_y);
+	new.z = coord->z * cos(env->rot_y) + coord->x * sin(env->rot_y);
+	coord->x = new.x;
 	coord->z = new.z;
 }
 
@@ -44,7 +44,7 @@ static void	rotate_z(t_env *env, t_coord *coord)
 
 void		rotate(t_env *env, t_coord *coord)
 {
-	rotate_x(env, coord);
-	rotate_y(env, coord);
 	rotate_z(env, coord);
+	rotate_y(env, coord);
+	rotate_x(env, coord);
 }

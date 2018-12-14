@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 14:59:48 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 18:27:57 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/14 22:56:05 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	fill_env(t_env *env)
 		&endian);
 	env->zoom_level = 20;
 	env->height_level = 1;
-	env->rot_x = 120;
-	env->rot_y = 120;
-	env->rot_z = 120;
+	env->rot_x = PI * 35.264 / 180;
+	env->rot_y = PI * 0 / 180;
+	env->rot_z = PI * 45 / 180;
 	env->adjust_x = 0;
 	env->adjust_y = 0;
 }
