@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/18 20:54:12 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 20:04:04 by nkamolba         ###   ########.fr       */
+/*   Created: 2018/12/14 18:52:23 by nkamolba          #+#    #+#             */
+/*   Updated: 2018/12/14 18:56:52 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		main(int argc, char **argv)
+void		draw_map(t_env *env)
 {
-	t_env	env;
-	t_queue *z_queue;
+	int		x;
+	int		y;
 
-	z_queue = parse_file(&env, argc, argv);
-	get_points(&env, z_queue);
-	free(z_queue);
-	fill_env(&env);
-	display(&env);
-	mlx_hook(env.win_ptr, 2, 1L << 0, handle_key, &env);
-	mlx_loop(env.mlx_ptr);
-	return (0);
+	y = 0;
+	while (y < env->map_height)
+	{
+		x = 0;
+		while (x < env->map_width)
+		{
+			if (x + 1 < env->map_width)
+				draw_line(env,
+					create_line(env->coords[y][x], env->coords[y][x + 1]));
+			if (y + 1 < env->map_height)
+				draw_line(env,
+					create_line(env->coords[y][x], env->coords[y + 1][x]));
+			x++;
+		}
+		y++;
+	}
 }

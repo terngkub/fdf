@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 18:27:33 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:47:51 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct	s_coord
 
 t_coord			create_coord(int x, int y, int z, int z_level);
 
+
 /*
 ** Environment
 */
@@ -81,7 +82,7 @@ typedef struct	s_env
 	int			map_height;
 
 	int			zoom_level;
-	int			height_level;
+	double		height_level;
 	int			adjust_x;
 	int			adjust_y;
 	double		rot_x;
@@ -97,14 +98,14 @@ typedef struct	s_env
 
 }				t_env;
 
-void	init_env(t_env *env);
+void	fill_env(t_env *env);
 
 /*
 ** Parse
 */
 
-t_queue			*read_file(t_env *env, int fd);
-void			parse_file(t_env *env, int argc, char **argv);
+t_queue			*parse_file(t_env *env, int argc, char **argv);
+void	get_points(t_env *env, t_queue *z_queue);
 
 
 /*
@@ -118,6 +119,7 @@ typedef struct	s_line
 }				t_line;
 
 t_line			create_line(t_coord one, t_coord two);
+void			swap_coord(t_line *l);
 void			draw_line(t_env *env, t_line l);
 
 /*
@@ -138,4 +140,19 @@ void			ft_error(char *str);
 
 void			print_points(t_env *env);
 void			rotate(t_env *env, t_coord *coord);
+
+/*
+** Key
+*/
+
+int				handle_key(int key, void *param);
+
+
+/*
+** Display
+*/
+
+void			display(t_env *env);
+
+
 #endif

@@ -1,126 +1,94 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 18:05:40 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/14 19:52:26 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		open_file(int argc, char **argv)
+static int		open_file(int argc, char **argv)
 {
 	int		fd;
 
 	if (argc != 2)
-	{
-		printf("Usage: ./fdf [file]");
-		exit(1);
-	}
-	fd = open(argv[1], O_RDONLY);	
+		ft_error("wrong number of parameter\nUsage: ./fdf [file]");
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-	{
-		printf("Can't open file");
-		exit(1);
-	}
-	return fd;
+		ft_error("can't open file");
+	return (fd);
 }
 
-int		get_split_len(char **split)
+static int		get_split_len(char **split)
 {
 	int		len;
 
 	len = 0;
-	while(split[len])
+	while (split[len])
 		len++;
-	return len;
+	return (len);
 }
 
-int		*parse_line(t_env *env, char *line)
+static int		*parse_line(t_env *env, char *line)
 {
-	char	**split;
-	int		split_len;
-	int		i;
-	int		*row;
+	char		**split;
+	int			split_len;
+	int			i;
+	int			*row;
 
 	if (!(split = ft_strsplit(line, ' ')))
-		ft_error("ft_strplit fail");
+		ft_error("ft_strplit fail in parse_line");
 	split_len = get_split_len(split);
 	if (env->map_width == -1)
 		env->map_width = split_len;
 	if (env->map_width != split_len)
 		ft_error("lines don't have the same width");
 	if (!(row = (int *)malloc(sizeof(int) * split_len)))
-		ft_error("malloc fail");
+		ft_error("malloc fail in parse_line");
 	i = 0;
 	while (i < split_len)
 	{
 		row[i] = (int)ft_atoi(split[i]);
+		free(split[i]);
 		i++;
 	}
-	return row;
+	free(split);
+	return (row);
 }
 
-t_queue	*read_file(t_env *env, int fd)
+static t_queue	*read_file(t_env *env, int fd)
 {
 	char	*line;
 	int		*row;
 	t_queue	*z_queue;
+	int		gnl;
 
 	env->map_width = -1;
 	get_next_line(fd, &line);
 	row = parse_line(env, line);
+	free(line);
 	z_queue = ft_queue_create(sizeof(int *) * env->map_width);
 	ft_queue_enqueue(z_queue, row);
-	while (get_next_line(fd, &line) > 0)
+	free(row);
+	while ((gnl = get_next_line(fd, &line)) > 0)
 	{
 		row = parse_line(env, line);
+		free(line);
 		ft_queue_enqueue(z_queue, row);
+		free(row);
 	}
+	if (gnl == -1)
+		ft_error("get_next_line failed");
 	env->map_height = z_queue->size;
-	return z_queue;
+	return (z_queue);
 }
 
-void check_zlevel_minmax(t_env *env, int z_level)
-{
-	if (z_level < env->min_z)
-		env->min_z = z_level;
-	else if (z_level > env->max_z)
-		env->max_z = z_level;
-}
-
-void	get_points(t_env *env, t_queue *z_queue)
-{
-	int		x;
-	int		y;
-	int		*z;
-
-	env->min_z = DBL_MAX;
-	env->max_z = DBL_MIN;
-	if (!(env->points = (t_point **)malloc(sizeof(t_point *) * env->map_height)))
-		ft_error("Error: malloc fail");
-	y = 0;
-	while (z_queue->size > 0)
-	{
-		if (!(env->points[y] = (t_point *)malloc(sizeof(t_point) * env->map_width)))
-			ft_error("Error: malloc fail");
-		z = (int *)ft_queue_dequeue(z_queue);
-		x = 0;
-		while (x < env->map_width)
-		{
-			env->points[y][x] = create_point(x, y, z[x]);
-			check_zlevel_minmax(env, z[x]);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	parse_file(t_env *env, int argc, char **argv)
+t_queue			*parse_file(t_env *env, int argc, char **argv)
 {
 	int		fd;
 	t_queue	*z_queue;
@@ -128,5 +96,5 @@ void	parse_file(t_env *env, int argc, char **argv)
 	fd = open_file(argc, argv);
 	z_queue = read_file(env, fd);
 	close(fd);
-	get_points(env, z_queue);
+	return (z_queue);
 }
