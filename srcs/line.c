@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 23:01:43 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/12 18:23:08 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/14 15:15:06 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ void		swap_coord(t_line *l)
 	l->two = temp;
 }
 
-void		handle_slope_error(double m, double *slope_error, t_coord *current)
-{
-	*slope_error += m - (double)(int)m;
-	if (*slope_error >= 0.5)
-	{
-		current->y += 1;
-		*slope_error -= 1;
-	}
-	else if (*slope_error < -0.5)
-	{
-		current->y -= 1;
-		*slope_error += 1;
-	}
-}
 
 void		draw_pixel(t_env *env, t_coord coord, int color)
 {
@@ -52,8 +38,7 @@ void		draw_pixel(t_env *env, t_coord coord, int color)
 	if (coord.x < 0 || coord.x >= WINDOW_WIDTH || coord.y < 0 || coord.y >= WINDOW_HEIGHT)
 		return ;
 	pixel = (int)(coord.y * WINDOW_WIDTH + coord.x);
-	if (pixel >= 0 && pixel < WINDOW_WIDTH * WINDOW_HEIGHT)
-		env->img[pixel] = color;
+	env->img[pixel] = color;
 }
 
 int		get_color(t_env *env, t_line l, double percent)
@@ -70,46 +55,73 @@ int		get_color(t_env *env, t_line l, double percent)
 	return (int)color;
 }
 
-static void	draw_diagonal_line(t_env *env, t_line l)
+static void	draw_flat_line(t_env *env, t_line l, double m)
 {
-	int		color;
-	double	m;
 	double	slope_error;
 	t_coord	current;
+	int		color;
 
 	if (l.one.x > l.two.x)
 		swap_coord(&l);
-	m = (l.two.y - l.one.y) / (l.two.x - l.one.x);
 	slope_error = 0;
 	current = create_coord(l.one.x, l.one.y, 0, 0);
-
 	while (current.x < l.two.x)
 	{
 		color = get_color(env, l, (current.x - l.one.x) / (l.two.x - l.one.x));
 		draw_pixel(env, current, color);
-		handle_slope_error(m, &slope_error, &current);
+		slope_error += m - (double)(int)m;
+		if (slope_error >= 0.5)
+		{
+			current.y += 1;
+			slope_error -= 1;
+		}
+		else if (slope_error < -0.5)
+		{
+			current.y -= 1;
+			slope_error += 1;
+		}
 		current.y += (int)m;
 		current.x++;
 	}
 }
 
-static void	draw_vertical_line(t_env *env, t_line l)
+static void	draw_steep_line(t_env *env, t_line l, double m)
 {
-	int y;
+	double	slope_error;
+	t_coord	current;
+	int		color;
 
-	if (l.two.y > l.two.y)
+	if (l.one.y > l.two.y)
 		swap_coord(&l);
-	y = l.one.y;
-	while (y < l.two.y)
-		env->img[(int)(y++ * WINDOW_WIDTH + l.one.x)] = 0xFFFFFF;
+	slope_error = 0;
+	current = create_coord(l.one.x, l.one.y, 0, 0);
+	while (current.y < l.two.y)
+	{
+		color = get_color(env, l, (current.y - l.one.y) / (l.two.y - l.one.y));
+		draw_pixel(env, current, color);
+		slope_error += (1/m) - (double)(int)(1/m);
+		if (slope_error >= 0.5)
+		{
+			current.x += 1;
+			slope_error -= 1;
+		}
+		else if (slope_error < -0.5)
+		{
+			current.x -= 1;
+			slope_error += 1;
+		}
+		current.y++;
+		current.x += (int)(1 / m);
+	}
 }
 
 void		draw_line(t_env *env, t_line l)
 {
-	if (l.one.x == l.two.x && l.one.y == l.two.y)
-		env->img[(int)(l.one.y * WINDOW_WIDTH + l.one.x)] = 0xFFFFFF;
-	else if (l.one.x == l.two.x)
-		draw_vertical_line(env, l);
+	double	m;
+
+	m = (l.two.y - l.one.y) / (l.two.x - l.one.x);
+	if (m > -1 && m < 1)
+		draw_flat_line(env, l, m);
 	else
-		draw_diagonal_line(env, l);
+		draw_steep_line(env, l, m);
 }
