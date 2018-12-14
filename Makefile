@@ -6,7 +6,7 @@
 #    By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/15 19:35:45 by nkamolba          #+#    #+#              #
-#    Updated: 2018/12/14 19:48:45 by nkamolba         ###   ########.fr        #
+#    Updated: 2018/12/14 21:32:28 by nkamolba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_FLAG = -Llibft -lft
 
 MLX_DIR = minilibx_macos
-MLX_FLAG = -I /usr/local/include -L minilibx_macos/ -lmlx -framework OpenGL -framework AppKit
+MLX_FLAG = -I /usr/local/include -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
 all : lib $(INCLUDES) $(NAME)
 
