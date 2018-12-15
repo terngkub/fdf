@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 22:05:51 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/15 12:25:09 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 
 # include "../libft/libft.h"
 # include <fcntl.h>
-# include <mlx.h>
-# include <stdio.h>
 # include <stdlib.h>
+# include <mlx.h>
 # include <math.h>
 # include <float.h>
-
-# define PI 3.14159265
 
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600

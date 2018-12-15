@@ -6,13 +6,15 @@
 #    By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/15 19:35:45 by nkamolba          #+#    #+#              #
-#    Updated: 2018/12/14 21:32:28 by nkamolba         ###   ########.fr        #
+#    Updated: 2018/12/15 12:26:48 by nkamolba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
-_SRCS = main.c parse_file.c get_points.c env.c utils.c \
-		structure.c get_coord.c draw_map.c draw_line.c rotate.c key.c display.c
+_SRCS = main.c structure.c utils.c \
+		parse_file.c get_points.c env.c \
+		display.c get_coord.c rotate.c draw_map.c draw_line.c \
+		key.c
 _INCLUDES = fdf.h
 
 CC = gcc
