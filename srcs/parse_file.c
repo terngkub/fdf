@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 19:52:26 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/15 12:52:43 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ static t_queue	*read_file(t_env *env, int fd)
 	int		gnl;
 
 	env->map_width = -1;
-	get_next_line(fd, &line);
+	if ((gnl = get_next_line(fd, &line)) == 0)
+		ft_error("get_next_line failed");
 	row = parse_line(env, line);
 	free(line);
 	z_queue = ft_queue_create(sizeof(int *) * env->map_width);

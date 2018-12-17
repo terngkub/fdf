@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 14:59:48 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/15 12:24:36 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/15 13:33:44 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ void	fill_env(t_env *env)
 	env->rot_z = M_PI * 45 / 180;
 	env->adjust_x = 0;
 	env->adjust_y = 0;
+	env->displayed = 0;
 }

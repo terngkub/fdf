@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 20:54:52 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/15 12:25:09 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/15 13:34:03 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct	s_env
 	double		max_y;
 	double		min_z;
 	double		max_z;
+	int			displayed;
 }				t_env;
 
 void			fill_env(t_env *env);

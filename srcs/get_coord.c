@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 19:56:57 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/14 20:09:34 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/15 13:35:03 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,18 @@ void		get_coord(t_env *env)
 	int		y;
 	int		x;
 
-	if (!(env->coords = (t_coord **)malloc(sizeof(t_coord *)
-			* env->map_height)))
-		ft_error("Error: malloc fail");
+	if (!env->displayed)
+		if (!(env->coords = (t_coord **)malloc(sizeof(t_coord *)
+				* env->map_height)))
+			ft_error("Error: malloc fail");
 	reset_minmax(env);
 	y = 0;
 	while (y < env->map_height)
 	{
-		if (!(env->coords[y] = (t_coord *)malloc(sizeof(t_coord)
-				* env->map_width)))
-			ft_error("Error: malloc fail");
+		if (!env->displayed)
+			if (!(env->coords[y] = (t_coord *)malloc(sizeof(t_coord)
+					* env->map_width)))
+				ft_error("Error: malloc fail");
 		x = 0;
 		while (x < env->map_width)
 		{
@@ -95,5 +97,6 @@ void		get_coord(t_env *env)
 		}
 		y++;
 	}
+	env->displayed = 1;
 	adjust_position(env);
 }
