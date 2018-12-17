@@ -6,7 +6,7 @@
 /*   By: nkamolba <nkamolba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 19:35:21 by nkamolba          #+#    #+#             */
-/*   Updated: 2018/12/15 12:52:43 by nkamolba         ###   ########.fr       */
+/*   Updated: 2018/12/17 16:26:24 by nkamolba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int		*parse_line(t_env *env, char *line)
 	split_len = get_split_len(split);
 	if (env->map_width == -1)
 		env->map_width = split_len;
+	if (env->map_width == 0)
+		ft_error("map contain empty file");
 	if (env->map_width != split_len)
 		ft_error("lines don't have the same width");
 	if (!(row = (int *)malloc(sizeof(int) * split_len)))
@@ -69,7 +71,7 @@ static t_queue	*read_file(t_env *env, int fd)
 	int		gnl;
 
 	env->map_width = -1;
-	if ((gnl = get_next_line(fd, &line)) == 0)
+	if ((gnl = get_next_line(fd, &line)) < 0)
 		ft_error("get_next_line failed");
 	row = parse_line(env, line);
 	free(line);
